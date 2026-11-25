@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<!-- Indispensable pour que le site s'adapte aux téléphones -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aodren Studio – Sites internet pour artisans</title>
+<meta name="description" content="Je crée des sites internet pour les artisans. Un seul interlocuteur du début à la fin. Devis gratuit.">
+<!-- Police Google : Archivo, très grasse -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800;900&display=swap" rel="stylesheet">
+<style>
+/* ===== 1. COULEURS : change-les ici, ça change partout ===== */
+:root{
+  --noir:#0A0A0A;      /* fond */
+  --carte:#141414;     /* fond des cartes */
+  --ligne:#262626;     /* fines lignes */
+  --blanc:#FFFFFF;     /* texte */
+  --gris:#A3A3A3;      /* texte secondaire */
+  --orange:#FF6A1A;    /* couleur d'accent */
+}
+/* ===== 2. BASES ===== */
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;background:#0A0A0A}
+body{background:transparent;color:var(--blanc);font-family:'Archivo',sans-serif;line-height:1.6;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+section{padding:80px 0;position:relative}
+/* Étiquette en majuscules espacées, façon interface */
+.label{display:inline-flex;align-items:center;gap:10px;font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gris);margin-bottom:20px}
+.label::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--orange);box-shadow:0 0 12px var(--orange)}
+h1,h2,h3{font-weight:900;line-height:1;letter-spacing:-.03em}
+h2{font-size:clamp(36px,6vw,72px);margin-bottom:40px}
+.gris{color:var(--gris)}
+/* Lueur orange floue derrière les éléments clés */
+.lueur{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(255,106,26,.35),transparent 65%);filter:blur(40px);pointer-events:none;z-index:0}
+/* ===== 3. BOUTONS ===== */
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:999px;font-weight:700;font-size:16px;border:none;cursor:pointer;font-family:inherit;transition:transform .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn-o{background:var(--orange);color:#000}
+.btn-l{border:1.5px solid var(--ligne);color:var(--blanc);background:transparent}
+/* ===== 4. MENU FIXE ===== */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,10,10,.7);backdrop-filter:blur(14px);border-bottom:1px solid var(--ligne)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:70px}
+.logo{font-weight:900;font-size:22px}.logo span{color:var(--orange)}
+.menu{display:flex;gap:28px;align-items:center;font-size:15px;font-weight:500}
+.menu a:not(.btn):hover{color:var(--orange)}
+.menu .btn{min-height:44px;padding:0 20px}
+.burger{display:none;background:none;border:none;color:#fff;width:44px;height:44px;cursor:pointer}
+/* ===== 5. HERO (en-tête) ===== */
+.hero{min-height:100vh;display:flex;align-items:center;padding-top:110px;overflow:hidden}
+.hero-fond{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:24vw;font-weight:900;color:#151515;white-space:nowrap;z-index:0;letter-spacing:-.05em}
+.hero .wrap{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.hero h1{font-size:clamp(44px,6.5vw,92px);margin-bottom:24px}
+.hero h1 em{font-style:normal;color:var(--orange)}
+.hero p{font-size:19px;color:var(--gris);max-width:520px;margin-bottom:36px}
+.boutons{display:flex;flex-wrap:wrap;gap:14px}
+/* Écrans de démo (ordinateur + téléphone) faits en CSS */
+.scene{position:relative;height:460px;perspective:1200px}
+.ordi{position:absolute;top:20px;left:0;width:88%;aspect-ratio:16/10;background:#1a1a1a;border:1px solid #333;border-radius:14px;padding:10px;box-shadow:0 40px 80px rgba(0,0,0,.6)}
+.tel{position:absolute;bottom:0;right:0;width:30%;aspect-ratio:9/19;background:#1a1a1a;border:1px solid #333;border-radius:26px;padding:7px;box-shadow:0 30px 60px rgba(0,0,0,.7)}
+.ecran{width:100%;height:100%;border-radius:8px;background:#F4F1EC;color:#111;overflow:hidden;position:relative;font-size:10px}
+.tel .ecran{border-radius:20px}
+.demo-bar{background:#12355B;color:#fff;padding:8px 10px;font-weight:800;display:flex;justify-content:space-between}
+.demo-hero{padding:14px 10px}
+.demo-hero b{display:block;font-size:17px;line-height:1.1;font-weight:900;margin-bottom:6px}
+.demo-btn{display:inline-block;background:#FF6A1A;color:#000;padding:5px 10px;border-radius:99px;font-weight:700;margin-top:6px}
+.demo-blocs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:0 10px}
+.demo-blocs div{height:42px;background:#DDD6CC;border-radius:6px}
+.badge-demo{position:absolute;top:6px;right:6px;background:#000;color:#fff;font-size:8px;font-weight:700;padding:2px 6px;border-radius:4px;letter-spacing:.1em}
+/* ===== 6. CHIFFRES GÉANTS ===== */
+.chiffres{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--ligne)}
+.chiffre{padding:48px 24px 0 0;border-right:1px solid var(--ligne)}
+.chiffre:last-child{border-right:none}
+.chiffre .nb{font-size:clamp(80px,12vw,180px);font-weight:900;line-height:.9;letter-spacing:-.05em}
+.chiffre .nb small{font-size:.35em;color:var(--orange)}
+.chiffre p{margin-top:14px;font-size:18px;color:var(--gris);max-width:260px}
+/* ===== 7. CARTES (qui suis-je, services, offres) ===== */
+.duo{display:grid;grid-template-columns:1fr 1.2fr;gap:64px;align-items:center}
+.photo{aspect-ratio:4/5;border-radius:24px;border:1px dashed #444;background:var(--carte);display:flex;align-items:center;justify-content:center;color:var(--gris);text-align:center}
+.texte p{font-size:19px;color:var(--gris);margin-bottom:18px}
+.texte strong{color:var(--blanc)}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.carte{background:var(--carte);border:1px solid var(--ligne);border-radius:24px;padding:36px;transition:border-color .3s,transform .3s}
+.carte:hover{border-color:var(--orange);transform:translateY(-4px)}
+.carte .num{font-size:13px;color:var(--orange);font-weight:700;letter-spacing:.2em}
+.carte h3{font-size:28px;margin:18px 0 12px}
+.carte p{color:var(--gris)}
+.prix{font-size:56px;font-weight:900;letter-spacing:-.04em;margin:18px 0}
+.prix small{font-size:16px;color:var(--gris);font-weight:500}
+.carte ul{list-style:none;margin-bottom:28px}
+.carte li{padding:10px 0;border-top:1px solid var(--ligne);color:var(--gris)}
+.carte li::before{content:"— ";color:var(--orange)}
+.vedette{border-color:var(--orange);box-shadow:0 0 60px rgba(255,106,26,.15)}
+.carte .btn{width:100%}
+/* ===== 8. MÉTHODE ===== */
+.etapes{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.etape{border-top:2px solid var(--ligne);padding-top:24px;transition:opacity .5s,border-color .5s}
+.etape .n{font-size:64px;font-weight:900;color:var(--orange);line-height:1}
+.etape h3{font-size:26px;margin:16px 0 10px}
+.etape p{color:var(--gris)}
+/* Sur ordinateur : les étapes sont grisées puis s'allument une par une */
+@media (min-width:901px){
+  .etape{opacity:.3}
+  .etape.active{opacity:1;border-color:var(--orange)}
+  
+}
+/* ===== 9. RÉALISATIONS (démos) ===== */
+.demo-cadre{position:relative;aspect-ratio:16/10;background:#1a1a1a;border:1px solid #333;border-radius:14px;padding:8px;margin-bottom:18px}
+/* ===== 10. FAQ ===== */
+.faq{max-width:820px}
+.faq details{border-bottom:1px solid var(--ligne)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:26px 0;font-size:20px;font-weight:700}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary span{flex-shrink:0;width:34px;height:34px;border-radius:50%;border:1.5px solid var(--ligne);display:flex;align-items:center;justify-content:center;transition:transform .3s}
+.faq details[open] summary span{transform:rotate(45deg);background:var(--orange);color:#000;border-color:var(--orange)}
+.faq details p{color:var(--gris);padding-bottom:26px;max-width:680px}
+/* ===== 11. CONTACT ===== */
+.coord{display:block;margin-top:14px;padding:18px 22px;border:1px solid var(--ligne);border-radius:16px;font-weight:700;font-size:18px}
+.coord:hover{border-color:var(--orange)}
+form{display:grid;gap:18px}
+.deux{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+form label{display:block;font-size:13px;font-weight:600;color:var(--gris);margin-bottom:8px;letter-spacing:.05em}
+form input,form textarea{width:100%;font:inherit;font-size:16px;padding:14px 16px;border-radius:12px;border:1px solid var(--ligne);background:var(--carte);color:var(--blanc)}
+form input:focus,form textarea:focus{outline:none;border-color:var(--orange)}
+form textarea{min-height:140px;resize:vertical}
+.ok{display:none;padding:16px;border-radius:12px;background:rgba(255,106,26,.12);color:var(--orange);font-weight:700}
+/* ===== 12. PIED DE PAGE ===== */
+footer{padding:40px 0;border-top:1px solid var(--ligne);color:var(--gris);font-size:14px}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+/* ===== 13. VERSION TÉLÉPHONE (écrans de moins de 900 pixels) ===== */
+@media (max-width:900px){
+  section{padding:80px 0}
+  .burger{display:block}
+  /* Le menu devient un panneau qui s'ouvre avec le bouton burger */
+  .menu{display:none;position:absolute;top:70px;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;background:var(--noir);border-bottom:1px solid var(--ligne);padding:8px 24px 20px}
+  .menu.ouvert{display:flex}
+  .menu a{padding:14px 0;border-bottom:1px solid var(--ligne)}
+  .menu .btn{margin-top:12px;border:none}
+  .hero .wrap,.duo,.g3,.etapes,.chiffres{grid-template-columns:1fr}
+  .scene{height:340px}
+  .chiffre{border-right:none;border-bottom:1px solid var(--ligne);padding:36px 0}
+  .photo{max-width:340px}
+}
+@media (max-width:560px){.deux{grid-template-columns:1fr}.boutons .btn{width:100%}}
+
+/* ===== 14. FOND MODERNE ET CHALEUREUX =====
+   Un calque fixé derrière tout le site : grosses lueurs chaudes qui bougent
+   doucement + fenêtres en verre qui flottent + grille fine façon tech. */
+.fond{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;background:#0A0A0A}
+/* Les lueurs : de grands cercles de couleur très doux */
+.orbe{position:absolute;border-radius:50%;animation:derive 22s ease-in-out infinite alternate}
+.orbe-1{width:70vw;height:70vw;top:-20vw;left:-15vw;background:radial-gradient(circle,rgba(255,106,26,.45),transparent 65%)}
+.orbe-2{width:60vw;height:60vw;top:30vh;right:-20vw;background:radial-gradient(circle,rgba(255,170,60,.35),transparent 65%);animation-duration:28s}
+.orbe-3{width:55vw;height:55vw;bottom:-25vw;left:20vw;background:radial-gradient(circle,rgba(255,90,90,.30),transparent 65%);animation-duration:34s}
+@keyframes derive{to{transform:translate(8vw,6vh) scale(1.15)}}
+/* La grille fine, qui s'efface sur les bords */
+.grille{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:64px 64px;-webkit-mask-image:radial-gradient(circle at 50% 40%,#000 20%,transparent 75%);mask-image:radial-gradient(circle at 50% 40%,#000 20%,transparent 75%)}
+/* Les fenêtres en verre qui flottent */
+.fenetre{position:absolute;border-radius:18px;background:rgba(255,140,60,.07);border:1px solid rgba(255,170,110,.22);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 30px 60px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.12);animation:flotte 12s ease-in-out infinite alternate}
+.fenetre::before{content:"";position:absolute;top:14px;left:16px;width:8px;height:8px;border-radius:50%;background:rgba(255,140,60,.8);box-shadow:14px 0 0 rgba(255,200,120,.6),28px 0 0 rgba(255,255,255,.3)}
+.fenetre::after{content:"";position:absolute;top:36px;left:0;right:0;height:1px;background:rgba(255,170,110,.18)}
+.f1{width:340px;height:220px;top:14vh;left:6vw;transform:rotate(-6deg)}
+.f2{width:280px;height:340px;top:52vh;left:70vw;transform:rotate(5deg);animation-duration:15s}
+.f3{width:240px;height:160px;top:72vh;left:14vw;transform:rotate(3deg);animation-duration:10s}
+.f4{width:200px;height:140px;top:8vh;left:78vw;transform:rotate(-4deg);animation-duration:17s}
+@keyframes flotte{to{translate:0 -30px}}
+/* Le grand mot du hero : plus discret sur le nouveau fond */
+.hero-fond{color:rgba(255,255,255,.035)}
+/* ===== 15. CARTES EN VERRE TRANSPARENT ===== */
+.carte,.photo,.coord,.faq,form input,form textarea{background:rgba(255,255,255,.05);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.12)}
+.carte{box-shadow:inset 0 1px 0 rgba(255,255,255,.1)}
+.carte:hover,.coord:hover{border-color:var(--orange);background:rgba(255,106,26,.08)}
+.vedette{background:rgba(255,106,26,.12);border-color:var(--orange)}
+.faq{border-radius:24px;padding:0 28px}
+.faq details:last-child{border-bottom:none}
+/* Sur téléphone : moins de fenêtres, pour rester fluide */
+@media (max-width:900px){.f2,.f4{display:none}.f1{width:220px;height:150px}.f3{width:180px;height:120px}}
+/* Animations coupées si la personne l'a demandé */
+@media (prefers-reduced-motion:reduce){.orbe,.fenetre{animation:none}}
+
+/* ===== 16. CARTE DÉMO (lien vers le site de l'électricien) ===== */
+.demo-lien{display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center;padding:28px;border-radius:28px;background:rgba(255,255,255,.05);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.12);transition:border-color .3s,transform .3s}
+.demo-lien:hover{border-color:var(--orange);transform:translateY(-4px)}
+.apercu{border-radius:16px;overflow:hidden;background:#F7F6F2;color:#0F1E3D;box-shadow:0 30px 60px rgba(0,0,0,.4);font-family:system-ui,sans-serif}
+.ap-entete{display:flex;align-items:center;gap:8px;background:#0F1E3D;color:#fff;padding:10px 14px;font-size:12px}
+.ap-logo{width:18px;height:18px;border-radius:5px;background:#FFC300}
+.ap-appel{margin-left:auto;background:#FFC300;color:#0F1E3D;font-weight:700;padding:3px 10px;border-radius:6px;font-size:11px}
+.ap-hero{background:#0F1E3D;color:#fff;padding:22px 16px 26px;display:flex;flex-direction:column;gap:2px}
+.ap-hero b{font-size:clamp(15px,2vw,22px);line-height:1.15;letter-spacing:-.02em}
+.ap-jaune{color:#FFC300}
+.ap-btn{align-self:flex-start;margin-top:12px;background:#FFC300;color:#0F1E3D;font-weight:700;font-size:11px;padding:6px 12px;border-radius:6px}
+.ap-cartes{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:14px}
+.ap-cartes i{height:46px;border-radius:8px;background:#fff;border:1px solid #E4E2DA}
+.badge{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#000;background:var(--orange);padding:4px 10px;border-radius:99px;margin-bottom:14px}
+.demo-texte h3{font-size:32px;margin-bottom:12px}
+.demo-texte p{color:var(--gris);margin-bottom:20px}
+.demo-voir{font-weight:700;color:var(--orange)}
+.g2{grid-template-columns:repeat(2,1fr);max-width:860px}
+@media (max-width:900px){.demo-lien{grid-template-columns:1fr;gap:24px;padding:18px}.g2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<!-- ===== FOND ANIMÉ (décor, ignoré par les lecteurs d'écran) ===== -->
+<div class="fond" aria-hidden="true">
+  <div class="orbe orbe-1"></div><div class="orbe orbe-2"></div><div class="orbe orbe-3"></div>
+  <div class="grille"></div>
+  <div class="fenetre f1"></div><div class="fenetre f2"></div><div class="fenetre f3"></div><div class="fenetre f4"></div>
+</div>
+
+
+<!-- ===== MENU ===== -->
+<header class="nav"><div class="wrap">
+  <a href="#" class="logo">Aodren <span>Studio</span></a>
+  <!-- Bouton à 3 traits, visible seulement sur téléphone -->
+  <button class="burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+  </button>
+  <nav class="menu" id="menu">
+    <a href="#apropos">Qui suis-je</a>
+    <a href="#services">Services</a>
+    <a href="#offres">Tarifs</a>
+    <a href="#methode">Méthode</a>
+    <a href="#faq">FAQ</a>
+    <a href="#contact" class="btn btn-o">Devis gratuit</a>
+  </nav>
+</div></header>
+
+<main>
+<!-- ===== HERO : l'accroche et les écrans animés ===== -->
+<section class="hero">
+  <div class="lueur" style="top:10%;right:-5%"></div>
+  <!-- Le grand mot en fond, qui glisse quand on descend -->
+  <div class="hero-fond" aria-hidden="true">ARTISANS</div>
+  <div class="wrap">
+    <div>
+      <div class="label">Création de sites pour artisans</div>
+      <h1>Un site pro pour votre entreprise. <em>Un seul interlocuteur.</em></h1>
+      <p>Je crée des sites internet pour les plombiers, électriciens, maçons, menuisiers et tous les métiers de l'artisanat. Du premier appel à la mise en ligne, c'est moi qui m'occupe de tout.</p>
+      <div class="boutons">
+        <a href="#contact" class="btn btn-o">Demander un devis gratuit</a>
+        <a href="#offres" class="btn btn-l">Voir les tarifs</a>
+      </div>
+    </div>
+    <!-- Les écrans (ordinateur + téléphone) sont dessinés en HTML/CSS -->
+    <div class="scene" aria-hidden="true">
+      <div class="ordi" id="ordi"><div class="ecran">
+        <span class="badge-demo">DÉMO</span>
+        <div class="demo-bar"><span>Électricité Morel</span><span>Appeler</span></div>
+        <div class="demo-hero"><b>Votre électricien, disponible 7j/7</b>Intervention rapide · Devis gratuit<br><span class="demo-btn">Prendre rendez-vous</span></div>
+        <div class="demo-blocs"><div></div><div></div><div></div></div>
+      </div></div>
+      <div class="tel" id="tel"><div class="ecran">
+        <span class="badge-demo">DÉMO</span>
+        <div class="demo-bar"><span>É. Morel</span><span>☰</span></div>
+        <div class="demo-hero"><b>Dépannage 7j/7</b><span class="demo-btn">Appeler</span></div>
+        <div class="demo-blocs" style="grid-template-columns:1fr"><div></div><div></div></div>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CHIFFRES-CLÉS (uniquement des faits vrais) ===== -->
+<section style="padding-top:40px"><div class="wrap">
+  <div class="chiffres">
+    <!-- data-fin = le nombre final du compteur -->
+    <div class="chiffre"><div class="nb"><span class="compteur" data-fin="1">1</span></div><p>seul interlocuteur, du premier appel à la mise en ligne.</p></div>
+    <div class="chiffre"><div class="nb"><span class="compteur" data-fin="24">24</span><small> h</small></div><p>maximum pour vous répondre, par téléphone ou par e-mail.</p></div>
+    <div class="chiffre"><div class="nb"><span class="compteur" data-fin="100">100</span><small> %</small></div><p>adapté au téléphone, là où vos clients vous cherchent.</p></div>
+  </div>
+</div></section>
+
+<!-- ===== QUI SUIS-JE ===== -->
+<section id="apropos"><div class="wrap">
+  <div class="texte" style="max-width:820px">
+    <div class="label">Qui suis-je</div>
+    <h2 class="flou" style="margin-bottom:20px">Aodren Studio vous accompagne de A à Z.</h2>
+    <p style="color:var(--blanc);font-weight:600">Vous parlez à la même personne du premier appel à la mise en ligne.</p>
+    <p>Je viens du monde de l'artisanat. Je sais qu'un artisan n'a pas le temps de courir après une agence.</p>
+    <p>Je crée votre site <strong>seul, de A à Z</strong> : vous m'expliquez votre métier, je m'occupe du reste. Et si vous avez une question, <strong>c'est moi qui décroche</strong>.</p>
+  </div>
+</div></section>
+
+<!-- ===== SERVICES ===== -->
+<section id="services"><div class="wrap">
+  <div class="label">Services</div><h2 class="flou">Ce que je fais pour vous.</h2>
+  <div class="g3">
+    <div class="carte"><div class="num">01</div><h3>Création</h3><p>Un site neuf, avec vos services, vos chantiers et un bouton pour vous appeler en un clic.</p></div>
+    <div class="carte"><div class="num">02</div><h3>Refonte</h3><p>Votre site est vieux ou illisible sur téléphone ? Je le remets à neuf.</p></div>
+    <div class="carte"><div class="num">03</div><h3>Maintenance</h3><p>Mises à jour, sauvegardes et modifications : vous n'avez plus à y penser.</p></div>
+  </div>
+</div></section>
+
+<!-- ===== DÉMO EN LIGNE : un vrai site, qu'on peut ouvrir ===== -->
+<section id="realisations"><div class="wrap">
+  <div class="label">Démo</div><h2 class="flou">Un exemple, en ligne.</h2>
+  <!-- Toute la carte est un lien : elle ouvre la démo dans un nouvel onglet -->
+  <a class="demo-lien" href="https://aodren878.github.io/Electricite-morel/" target="_blank" rel="noopener">
+    <!-- Aperçu du site de l'électricien, dessiné en CSS -->
+    <div class="apercu" aria-hidden="true">
+      <div class="ap-entete"><span class="ap-logo"></span><b>Électricité Morel</b><span class="ap-appel">Appeler</span></div>
+      <div class="ap-hero"><b>Votre électricien à Mérignac,</b><b class="ap-jaune">disponible et à l'écoute.</b><span class="ap-btn">Demander un devis gratuit</span></div>
+      <div class="ap-cartes"><i></i><i></i><i></i><i></i></div>
+    </div>
+    <div class="demo-texte">
+      <span class="badge">Offre Essentiel</span>
+      <h3>Électricité Morel</h3>
+      <p>Site d'une page pour un électricien : services, réalisations, horaires, carte et bouton d'appel. Entreprise fictive, créée pour la démonstration.</p>
+      <span class="demo-voir">Voir la démo en ligne →</span>
+    </div>
+  </a>
+</div></section>
+
+<!-- ===== OFFRES (À REMPLACER si tu changes tes prix) ===== -->
+<section id="offres"><div class="wrap">
+  <div class="label">Tarifs</div><h2 class="flou">Clair. Sans surprise.</h2>
+  <div class="g3 g2">
+    <div class="carte"><h3>Essentiel</h3><p>Une page pour être trouvé et appelé</p><div class="prix">390 €</div>
+      <ul><li>Site d'une page</li><li>Adapté au téléphone</li><li>Bouton d'appel, carte et horaires</li><li>Retouches incluses pendant la création</li></ul>
+      <a href="#contact" class="btn btn-l">Choisir</a></div>
+    <div class="carte vedette"><h3>Pro</h3><p>Plusieurs pages pour tout montrer</p><div class="prix">700 €</div>
+      <ul><li>Jusqu'à 5 pages</li><li>Une page par service</li><li>Galerie de chantiers</li><li>Formulaire de contact</li><li>Retouches incluses pendant la création</li></ul>
+      <a href="#contact" class="btn btn-o">Choisir</a></div>
+  </div>
+  <p class="gris" style="margin-top:20px;font-size:15px">Paiement en deux fois : la moitié au départ, le reste à la mise en ligne. Pas d'abonnement.</p>
+</div></section>
+
+<!-- ===== MÉTHODE : les étapes s'allument une par une au défilement ===== -->
+<section id="methode"><div class="wrap">
+  <div class="label">Ma méthode</div><h2>4 étapes. C'est tout.</h2>
+  <div class="etapes">
+    <div class="etape"><div class="n">01</div><h3>L'appel</h3><p>30 minutes pour comprendre votre métier.</p></div>
+    <div class="etape"><div class="n">02</div><h3>La maquette</h3><p>Je vous montre le site, vous validez.</p></div>
+    <div class="etape"><div class="n">03</div><h3>La création</h3><p>Je construis tout, textes compris.</p></div>
+    <div class="etape"><div class="n">04</div><h3>La mise en ligne</h3><p>Votre site est visible sur Google.</p></div>
+  </div>
+</div></section>
+
+<!-- ===== FAQ ===== -->
+<section id="faq"><div class="wrap">
+  <div class="label">FAQ</div><h2 class="flou">Vos questions.</h2>
+  <div class="faq">
+    <details><summary>Combien de temps pour avoir mon site ?<span>+</span></summary><p>En général 2 à 4 semaines.</p></details>
+    <details><summary>Je n'y connais rien en informatique.<span>+</span></summary><p>Aucun problème : je m'occupe de toute la technique.</p></details>
+    <details><summary>Je dois écrire les textes ?<span>+</span></summary><p>Non, je les rédige avec vous.</p></details>
+    <details><summary>Pourrai-je modifier mon site ?<span>+</span></summary><p>Oui. Et après la mise en ligne, je peux faire vos modifications sur devis.</p></details>
+    <details><summary>Comment se passe le paiement ?<span>+</span></summary><p>Un acompte au départ, le reste à la mise en ligne.</p></details>
+  </div>
+</div></section>
+
+<!-- ===== CONTACT ===== -->
+<section id="contact"><div class="lueur" style="right:-10%;bottom:0"></div>
+<div class="wrap duo" style="position:relative;z-index:1;align-items:start">
+  <div>
+    <div class="label">Contact</div><h2 class="flou" style="margin-bottom:24px">Parlons de votre projet.</h2>
+    <p class="gris">Devis gratuit, réponse sous 24 h.</p>
+    <!-- Coordonnées d'Aodren Studio -->
+    <a class="coord" href="tel:+33614687005">06 14 68 70 05</a>
+    <a class="coord" href="mailto:contact.aodrenstudio@gmail.com">contact.aodrenstudio@gmail.com</a>
+  </div>
+  <!-- À REMPLACER : mets ton adresse Formspree dans action="..." -->
+  <form id="form" action="https://formspree.io/f/TON-CODE" method="POST">
+    <div class="deux">
+      <div><label for="nom">Nom</label><input id="nom" name="nom" required></div>
+      <div><label for="metier">Métier</label><input id="metier" name="metier" placeholder="Plombier, électricien..."></div>
+    </div>
+    <div class="deux">
+      <div><label for="email">E-mail</label><input id="email" name="email" type="email" required></div>
+      <div><label for="tel2">Téléphone</label><input id="tel2" name="telephone" type="tel"></div>
+    </div>
+    <div><label for="msg">Votre message</label><textarea id="msg" name="message" required></textarea></div>
+    <button class="btn btn-o" type="submit">Envoyer ma demande</button>
+    <p class="ok" id="ok" role="status">Merci ! Je vous réponds sous 24 h.</p>
+  </form>
+</div></section>
+</main>
+
+<footer><div class="wrap"><span>© 2026 Aodren Studio – Sites pour artisans</span><a href="#">Mentions légales</a></div></footer>
+
+<!-- GSAP : la bibliothèque d'animation, chargée depuis Internet -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script>
+// 1. MENU TÉLÉPHONE : ouvre et ferme le menu
+const burger=document.getElementById('burger'), menu=document.getElementById('menu');
+burger.onclick=()=>{const o=menu.classList.toggle('ouvert');burger.setAttribute('aria-expanded',o)};
+menu.querySelectorAll('a').forEach(a=>a.onclick=()=>menu.classList.remove('ouvert'));
+
+// 2. FORMULAIRE : envoie à Formspree sans quitter la page
+const form=document.getElementById('form');
+form.onsubmit=async e=>{
+  e.preventDefault();
+  // Tant que Formspree n'est pas branché (TON-CODE), on ouvre la messagerie du visiteur
+  // avec le message déjà rempli, pour qu'aucune demande ne soit perdue.
+  if(form.action.includes('TON-CODE')){
+    const d=new FormData(form);
+    const corps='Nom : '+d.get('nom')+'\nMétier : '+d.get('metier')+'\nTéléphone : '+d.get('telephone')+'\nE-mail : '+d.get('email')+'\n\n'+d.get('message');
+    location.href='mailto:contact.aodrenstudio@gmail.com?subject='+encodeURIComponent('Demande de devis')+'&body='+encodeURIComponent(corps);
+    return;
+  }
+  try{
+    const r=await fetch(form.action,{method:'POST',body:new FormData(form),headers:{Accept:'application/json'}});
+    if(!r.ok) throw new Error();
+    document.getElementById('ok').style.display='block'; form.reset();
+  }catch(err){
+    alert("Le message n'est pas parti. Écrivez-moi à contact.aodrenstudio@gmail.com");
+  }
+};
+
+// 3. ANIMATIONS (coupées si la personne a désactivé les animations)
+const calme=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(!calme && window.gsap){
+  gsap.registerPlugin(ScrollTrigger);
+
+  // a) Titres : du flou au net quand ils arrivent à l'écran
+  gsap.utils.toArray('.flou').forEach(el=>{
+    gsap.from(el,{opacity:0,filter:'blur(12px)',y:30,duration:1,scrollTrigger:{trigger:el,start:'top 88%'}});
+  });
+
+  // b) Hero : les écrans zooment et pivotent en 3D pendant qu'on défile
+  gsap.to('#ordi',{rotateY:-14,rotateX:6,scale:1.12,scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
+  gsap.to('#tel',{rotateY:12,y:-60,scale:1.1,scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
+  gsap.to('.hero-fond',{xPercent:-58,scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
+
+  // c) Chiffres : compteur de 0 jusqu'à la valeur finale
+  document.querySelectorAll('.compteur').forEach(el=>{
+    const fin=+el.dataset.fin, obj={v:0};
+    gsap.to(obj,{v:fin,duration:2,ease:'power2.out',
+      onUpdate:()=>el.textContent=Math.round(obj.v),
+      scrollTrigger:{trigger:el,start:'top 85%'}});
+  });
+
+  // d) Cartes : elles montent l'une après l'autre
+  gsap.utils.toArray('.g3').forEach(g=>{
+    gsap.from(g.children,{y:60,opacity:0,stagger:.15,duration:.8,scrollTrigger:{trigger:g,start:'top 80%'}});
+  });
+
+  // e) Méthode : toutes les étapes sont visibles (plus d'épinglage, la page est plus courte)
+  document.querySelectorAll('.etape').forEach(e=>e.classList.add('active'));
+} else {
+  // Sans animation : on affiche directement les bonnes valeurs
+  document.querySelectorAll('.compteur').forEach(el=>el.textContent=el.dataset.fin);
+  document.querySelectorAll('.etape').forEach(e=>e.classList.add('active'));
+}
+</script>
+</body>
+</html>
